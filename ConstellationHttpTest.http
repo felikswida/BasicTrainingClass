@@ -1,0 +1,18 @@
+
+@endpoint  = http://localhost:7000
+
+
+### Status
+GET {{endpoint}}/api/status
+
+### Start Process
+POST {{endpoint}}/api/constellation/start
+
+### Stop Process
+POST {{endpoint}}/api/constellation/stop
+
+### Pause Process
+POST {{endpoint}}/api/constellation/pause
+
+### Resume Process
+POST {{endpoint}}/api/constellation/resume
