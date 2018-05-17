@@ -1,6 +1,6 @@
 import React from 'react';
 import bootstrap from 'bootstrap';
-import style from 'bootstrap/dist/css/bootstrap.css';
+// import style from 'bootstrap/dist/css/bootstrap.css';
 
 import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';

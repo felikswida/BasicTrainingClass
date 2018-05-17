@@ -1,11 +1,14 @@
 import React from 'react';
 import {Post,Get,Delete,Put} from '../../Common/HttpReq/Request'
+import * as APPDATA from '../../AppData/ConstellationAppData'
 // interfal of updating status
 const Interval = 2000
 // observer list of StatusService
 var observers = []
-// value given to the observer
-var status = 0
+// value given to the observe
+var statusService = {
+    status : APPDATA.Enum.Status.IDLE,
+    percentage : 0}
 class StatusService extends React.Component{
     constructor(props) {
         super(props);
@@ -24,7 +27,11 @@ class StatusService extends React.Component{
         notifyAllObservers()
     }
     statusChanged(){
-        status = status +=1
+        var percent = statusService.percentage +=1
+        statusService = {            
+            status : APPDATA.Enum.Status.RUNNING,
+            percentage : percent <=100 ? percent :0
+        }
     }
     componentDidMount() {
         var param = {}
@@ -56,7 +63,7 @@ export var registerObserver =function(observer){
  */
 export var notifyAllObservers = function (){
     for (var i = 0 ; i < observers.length ;i++){
-        observers[i].update(status)
+        observers[i].update(statusService)
     }
 }
 

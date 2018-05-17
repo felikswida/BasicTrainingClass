@@ -20,39 +20,21 @@ module.exports = (env) => {
             publicPath: "/dist/"
         },
         module : {
-            loaders : [
+            rules: [
                 {
-                    test : /\.js?/,
-                    include : APP_DIR,
-                    loader : 'babel-loader',
-                    query: {
-                        presets: ['react', 'es2015'],
-                        plugins: ['transform-object-rest-spread', 'transform-decorators-legacy']
+                    // test: /\.js$/,
+                    test: /\.jsx?$/,
+                    // exclude: /(node_modules|bower_components)/,
+                    loader :'babel-loader',
+                    query  :{
+                        presets: ['es2015','react',"stage-2"]
                     }
-                },
-                {
-                    test: /\.css$/,
-                    use: isDevBuild ? ['style-loader', 'css-loader'] : ExtractTextPlugin.extract({ use: 'css-loader?minimize' })
                 },
                 {
                     test: /\.less$/,
                     loader: ['style-loader', 'css-loader' + ( isDevBuild ? '' : '?minimize=true') ,'less-loader'+ ( isDevBuild ? '' : '?minimize=true') ],
-                    // use: [{
-                    //     loader: "style-loader" // creates style nodes from JS strings
-                    // }, {
-                    //     loader: "css-loader" // translates CSS into CommonJS
-                    // }, {
-                    //     loader: "less-loader" // compiles Less to CSS
-                    // }]
                 },
-                {
-                    test: /\.(ttf|eot|woff|woff2)$/,
-                    loader: 'file-loader',
-                    options: {
-                        name: 'fonts/[name].[ext]',
-                    },
-                },
-                { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'file-loader?limit=25000' }
+                { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' }
             ]
         },
         plugins: [
@@ -79,10 +61,12 @@ module.exports = (env) => {
             new webpack.SourceMapDevToolPlugin({
                 filename: '[file].map', // Remove this line if you prefer inline source maps
                 moduleFilenameTemplate: path.relative(BUILD_DIR, '[resourcePath]') // Point sourcemap entries to the original file locations on disk
-            })
+            }),
+            // new ExtractTextPlugin("styles.css")
         ] : [
             // Plugins that apply in production builds only
             new webpack.optimize.UglifyJsPlugin()
+
         ])
   }]
 };
